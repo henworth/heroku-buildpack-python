@@ -82,8 +82,8 @@ if [ ! "$SKIP_INSTALL" ]; then
     mkdir -p .heroku/python
 
     mcount "version.python.$PYTHON_VERSION"
-
-    if ! curl "${VENDORED_PYTHON}" -s | tar zxv -C .heroku/python &> /dev/null; then
+    echo "${VENDORED_PYTHON}"
+    if ! curl "${VENDORED_PYTHON}" -s | tar zxv -C .heroku/python; then
       puts-warn "Requested runtime ($PYTHON_VERSION) is not available for this stack ($STACK)."
       puts-warn "Aborting.  More info: https://devcenter.heroku.com/articles/python-support"
       exit 1
