@@ -82,8 +82,8 @@ if [ ! "$SKIP_INSTALL" ]; then
     mkdir -p .heroku/python
 
     mcount "version.python.$PYTHON_VERSION"
-    echo "${VENDORED_PYTHON}"
-    if ! curl "${VENDORED_PYTHON}" -s | tar zxv -C .heroku/python; then
+
+    if ! curl "${VENDORED_PYTHON}" -s | tar zxv -C .heroku/python &> /dev/null; then
       puts-warn "Requested runtime ($PYTHON_VERSION) is not available for this stack ($STACK)."
       puts-warn "Aborting.  More info: https://devcenter.heroku.com/articles/python-support"
       exit 1
@@ -108,7 +108,7 @@ if [ "$FRESH_PYTHON" ] || [[ ! $(pip --version) == *$PIP_UPDATE* ]]; then
   rm -fr /app/.heroku/python/lib/python*/site-packages/setuptools-*
 
   /app/.heroku/python/bin/python "$ROOT_DIR/vendor/get-pip.py" pip=="$PIP_UPDATE"
-#   .heroku/python/bin/pip install "$ROOT_DIR/vendor/setuptools-39.0.1-py2.py3-none-any.whl" &> /dev/null
+  /app/.heroku/python/bin/pip install "$ROOT_DIR/vendor/setuptools-39.0.1-py2.py3-none-any.whl" &> /dev/null
 fi
 
 set -e
